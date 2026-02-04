@@ -100,7 +100,7 @@ export default function Dashboard() {
           <Text className="text-white text-lg">◀</Text>
         </TouchableOpacity>
 
-        <Text className="text-lg font-semibold text-secondary">
+        <Text className="text-lg font-semibold text-white">
           {MONTHS[month - 1]} {year}
         </Text>
 

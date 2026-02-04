@@ -6,7 +6,7 @@ import axios from 'axios';
 import API_URLS from "../config/apiUrl";
 import ToastManager, { Toast } from 'toastify-react-native'
 import { useNavigation } from "@react-navigation/native";
-// const PLANS = [
+
 //   {
 //     _id: "6970c0fafad82ab4785e85c6",
 //     code: "BASIC",

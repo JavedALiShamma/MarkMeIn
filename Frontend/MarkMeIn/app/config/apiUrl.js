@@ -1,6 +1,6 @@
-const BASE_URL = "https://ibs-server-82kd.onrender.com/markMeIn"; 
+// const BASE_URL = "https://ibs-server-82kd.onrender.com/markMeIn"; 
 // OR for local
-// const BASE_URL = "http://192.168.29.129:3030/markMeIn";
+const BASE_URL = "http://192.168.29.129:3030/markMeIn";
 
 export const API_URLS = {
   // Auth
@@ -22,7 +22,9 @@ export const API_URLS = {
   TODAY_ATTENDANCE :`${BASE_URL}/attendance/today`,
   REMOTEATTENDANCE:`${BASE_URL}/attendance/remote-stats`,
   // subscription
-  SUBSCRIPTION : `${BASE_URL}/subscription`
+  SUBSCRIPTION : `${BASE_URL}/subscription`,
+  // payment
+  PAYMENT :`${BASE_URL}/payments`
 };
 
 export default API_URLS;

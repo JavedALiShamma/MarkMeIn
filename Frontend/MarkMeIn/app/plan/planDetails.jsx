@@ -1,14 +1,18 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, TouchableHighlight, Alert, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import RazorpayCheckout from 'react-native-razorpay';
+import { useState } from "react";
+import { startRazorpayPayment } from "../services/razorpayService";
+import { useAuthStore } from "../store/useAuthStore";
 
 export default function PlanDetailsScreen() {
   const route = useRoute();
   const navigation = useNavigation();
-
+  const [isLoading , setIsLoading] = useState(false);
   const { plan } = route.params; // 🔑 plan data passed from selection screen
-
+  const {user ,token }= useAuthStore();
   const {
     name,
     pricePerMonth,
@@ -17,7 +21,28 @@ export default function PlanDetailsScreen() {
     description,
     features,
   } = plan;
-
+  // Handle Payment 
+  const handlePayment =async()=>{
+    setIsLoading(true);
+    const result = await startRazorpayPayment({
+        planId: plan._id,
+      user,
+      token
+    })
+    console.log(result , "Result in frontend is");
+    if(result.success){
+      Alert.alert("Success", "Payment is done")
+    }
+    else if (result.cancelled) {
+      Alert.alert("Cancelled", "Payment cancelled");
+    } else {
+      Alert.alert("Failed", "Payment failed, try again");
+    }
+    setIsLoading(false);
+  }
+  if(isLoading){
+    return(<ActivityIndicator size={"large"}/>)
+  }
   return (
     <SafeAreaView className="flex-1 bg-background">
       <ScrollView className="px-4" showsVerticalScrollIndicator={false}>
@@ -71,14 +96,12 @@ export default function PlanDetailsScreen() {
           />
         </View>
       </ScrollView>
-
+      {/* RazorPay Screen  */}
+      
       {/* PAY BUTTON */}
       <View className="px-4 pb-4">
         <TouchableOpacity
-          onPress={() => {
-            // Razorpay later
-            alert("Proceed to payment (mock)");
-          }}
+          onPress={handlePayment}
           className="bg-primary py-4 rounded-2xl items-center"
         >
           <Text className="text-white font-bold text-lg">
